@@ -80,6 +80,7 @@ export type DemoScene = {
   sunHour: number;
   shot: Shot;
   buildKey: number;
+  renderTime?: number;
 };
 export type Preset = {
   id: string;

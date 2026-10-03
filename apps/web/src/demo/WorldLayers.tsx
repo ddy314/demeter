@@ -443,7 +443,8 @@ function Drone({ scene, demo }: { scene: Scene; demo: DemoScene }) {
   }, [segments, demo.buildKey]);
   useFrame((_, dt) => {
     if (!root.current || !segments.length) return;
-    if (demo.playing) elapsed.current += Math.min(dt, 0.05);
+    if (demo.renderTime !== undefined) elapsed.current = demo.renderTime;
+    else if (demo.playing) elapsed.current += Math.min(dt, 0.05);
     const distance =
       (elapsed.current * (demo.study?.inputs.drone_speed_ms || 3) * 6) % total;
     const s = segments.find((s) => distance < s.end) || segments[0],

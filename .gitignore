@@ -14,3 +14,11 @@ data/runs/*
 artifacts/*.log
 
 .ruff_cache/
+
+# Reproducible video renders and local speech model weights
+artifacts/video/work/
+artifacts/video/models/
+artifacts/video/*.mp4
+artifacts/video/*.wav
+artifacts/video/media-info.json
+/apps/web/public/video-data.json

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "intro",
+    "start": 0,
+    "end": 8,
+    "eyebrow": "DEMETER / ORCHARD DESIGN STUDIO",
+    "title": "A whole orchard.\nOne clear view.",
+    "voice": "Meet Demeter. A spatial design studio that turns orchard planning into a landscape you can explore."
+  },
+  {
+    "id": "problem",
+    "start": 8,
+    "end": 20,
+    "eyebrow": "01 / THE LAND COMES FIRST",
+    "title": "Every slope\nchanges the plan.",
+    "voice": "On a hillside, water, sunlight, structures and operating costs are connected. Demeter brings those decisions into one computed, three dimensional orchard."
+  },
+  {
+    "id": "prompt",
+    "start": 20,
+    "end": 36,
+    "eyebrow": "02 / FROM INTENT TO DESIGN",
+    "title": "Describe it.\nBuild from it.",
+    "voice": "Start with a request. A one hundred sixty by ninety metre orchard. Twelve metres of elevation change. Two greenhouses, winter sunlight, and a four metre drone swath. Structured instructions update the design."
+  },
+  {
+    "id": "build",
+    "start": 36,
+    "end": 62,
+    "eyebrow": "03 / CONSTRUCTION, IN SEQUENCE",
+    "title": "Watch the\nplan take shape.",
+    "voice": "The same scene data drives geometry and engineering. Terrain is reconstructed along terrace boundaries. One hundred eighty eight trees grow into place. Foundations, columns and roof panels assemble. Finally, the water network extends from the source through the orchard. Each structure has a place. Every parameter has a consequence."
+  },
+  {
+    "id": "structures",
+    "start": 62,
+    "end": 78,
+    "eyebrow": "04 / PROTECTED GROWING",
+    "title": "Give growth\nroom to thrive.",
+    "voice": "Greenhouse placement follows the available terraces. The design checks the building footprint, ground variation and separation from obstacles. Two protective structures become part of the orchard, with their own light transmission and construction costs."
+  },
+  {
+    "id": "light",
+    "start": 78,
+    "end": 93,
+    "eyebrow": "05 / FOLLOW THE SUN",
+    "title": "See the light.\nRead the shade.",
+    "voice": "Move through the solar day. Terrain ray tests estimate direct sunlight at each tree, while roof transmission changes the protected growing conditions. Compare locations before committing to a layout."
+  },
+  {
+    "id": "water",
+    "start": 93,
+    "end": 111,
+    "eyebrow": "06 / ENGINEERING UNDER THE SURFACE",
+    "title": "Water, with\na working plan.",
+    "voice": "The hydraulic engine evaluates one hundred eight configurations of routes, pipe sizes, pumps and watering zones. Fifty eight satisfy this scenario's constraints. Compare cost, pressure and operating time, then inspect a balanced design in three dimensions."
+  },
+  {
+    "id": "drone",
+    "start": 111,
+    "end": 126,
+    "eyebrow": "07 / PLAN THE OPERATION",
+    "title": "A path through\nthe possibilities.",
+    "voice": "Drone sweeps stay within the working area. Transfer paths route around structures, with spraying switched off between working segments. This plan achieves ninety seven point three percent geometric coverage."
+  },
+  {
+    "id": "economics",
+    "start": 126,
+    "end": 141,
+    "eyebrow": "08 / MAKE THE NUMBERS COUNT",
+    "title": "A design you\ncan compare.",
+    "voice": "Bring investment and annual operations into the same decision. Adjust price and yield, compare cash flow and five year net present value, and export the design with its inputs and calculation results."
+  },
+  {
+    "id": "architecture",
+    "start": 141,
+    "end": 156,
+    "eyebrow": "09 / A CONNECTED WORKFLOW",
+    "title": "Intent to tools.\nTools to terrain.",
+    "voice": "The planner proposes structured edits. Validation preserves engineering constraints. The solver supplies the results. The model adapter uses this same contract, so the visual experience and the calculation pipeline stay connected."
+  },
+  {
+    "id": "outro",
+    "start": 156,
+    "end": 166,
+    "eyebrow": "DEMETER",
+    "title": "Shape the land.\nSee what grows.",
+    "voice": "Demeter. From a hillside to an orchard you can understand. Explore the source, run the project, and build your next design."
+  }
+]

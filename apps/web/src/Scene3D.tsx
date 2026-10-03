@@ -42,6 +42,7 @@ type Props = {
   progress: number;
   cameraMode: "perspective" | "top";
   demo?: DemoScene;
+  renderDriver?: ReactNode;
 };
 type Pick = TreeNode | PipePick;
 import type { OrbitControls as OrbitControlsType } from "three-stdlib";
@@ -351,10 +352,10 @@ function Scene3D(props: Props) {
   }, [geom, solving, replaying, current?.id]);
   useEffect(() => {
     setZone(0);
-    if (!flow) return;
+    if (!flow || props.renderDriver) return;
     const timer = setInterval(() => setZone((z) => (z + 1) % zones), 3200);
     return () => clearInterval(timer);
-  }, [zones, flow]);
+  }, [zones, flow, props.renderDriver]);
   const isPipe = (p: Pick): p is PipePick => "kind" in p;
   const pickedNode = picked && !isPipe(picked) ? picked : undefined;
   const pressures =
@@ -381,21 +382,24 @@ function Scene3D(props: Props) {
       <RenderBoundary>
         <Canvas
           shadows
-          frameloop="demand"
+          frameloop={props.renderDriver ? "never" : "demand"}
           camera={{ position: [105, 115, 135], fov: 36, near: 0.1, far: 900 }}
-          dpr={[1, 1.5]}
+          dpr={props.renderDriver ? 1 : [1, 1.5]}
           gl={{
             antialias: true,
+            preserveDrawingBuffer: !!props.renderDriver,
             localClippingEnabled: true,
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.02,
           }}
           onPointerMissed={() => setPicked(undefined)}
         >
-          <RenderSchedule
-            active={demo ? demo.playing : flow || solving || replaying}
-            revision={demo || plan || geom}
-          />
+          {!props.renderDriver && (
+            <RenderSchedule
+              active={demo ? demo.playing : flow || solving || replaying}
+              revision={demo || plan || geom}
+            />
+          )}
           <color attach="background" args={["#f3f5f7"]} />
           <fog attach="fog" args={["#f3f5f7", 240, 520]} />
           <ambientLight intensity={0.3} />
@@ -518,13 +522,15 @@ function Scene3D(props: Props) {
               frames={1}
             />
           )}
-          <Camera
-            scene={scene}
-            reset={props.reset}
-            mode={props.cameraMode}
-            focus={focus}
-            shot={demo?.shot}
-          />
+          {props.renderDriver || (
+            <Camera
+              scene={scene}
+              reset={props.reset}
+              mode={props.cameraMode}
+              focus={focus}
+              shot={demo?.shot}
+            />
+          )}
         </Canvas>
       </RenderBoundary>
       {!demo && (

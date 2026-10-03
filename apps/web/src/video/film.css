@@ -1,0 +1,248 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f5f7;
+  color: #14273d;
+}
+.film {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+}
+.world {
+  position: absolute;
+  left: 280px;
+  top: 0;
+  right: -100px;
+  bottom: 0;
+}
+.scene-root {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.left-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #f3f5f7 0%, #f3f5f7 19%, #f3f5f700 42%);
+}
+header {
+  position: absolute;
+  left: 90px;
+  right: 90px;
+  top: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-size: 29px;
+  letter-spacing: -1.3px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.brand b {
+  display: grid;
+  place-items: center;
+  background: #277dec;
+  color: white;
+  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 34px;
+}
+header > span {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #7c90a6;
+}
+.story {
+  position: absolute;
+  left: 90px;
+  top: 240px;
+  width: 520px;
+}
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2.8px;
+  color: #5d85ae;
+  margin-bottom: 30px;
+}
+h1 {
+  font-size: 67px;
+  font-weight: 500;
+  letter-spacing: -3.1px;
+  line-height: 1.08;
+  margin: 0 0 35px;
+}
+h1 span {
+  display: block;
+}
+p {
+  font-size: 24px;
+  color: #7b8ea2;
+  line-height: 1.6;
+  margin: 25px 0;
+}
+.metrics {
+  margin-top: 52px;
+  display: flex;
+  gap: 34px;
+  flex-wrap: wrap;
+}
+.metrics > div {
+  min-width: 170px;
+}
+.metrics strong {
+  font-weight: 400;
+  font-size: 49px;
+  letter-spacing: -2px;
+  color: #3a79b5;
+  display: block;
+}
+.metrics small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: #7c90a6;
+  margin-top: 14px;
+}
+.prompt {
+  border: 1px solid #d6e1ec;
+  background: #ffffffde;
+  padding: 26px;
+  border-radius: 19px;
+  font-size: 21px;
+  line-height: 1.65;
+  box-shadow: 0 12px 40px #38536f0b;
+  width: 510px;
+  min-height: 280px;
+}
+.prompt-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #8b9db0;
+  margin-bottom: 16px;
+}
+.cursor {
+  color: #3d89d9;
+}
+.accepted {
+  border-top: 1px solid #e5edf4;
+  margin-top: 18px;
+  padding-top: 16px;
+  font-size: 13px;
+  color: #5b87aa;
+}
+.accepted i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #478bcb;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.note {
+  font-size: 13px;
+  margin-top: 34px;
+  letter-spacing: 0.3px;
+}
+.pipeline {
+  margin-top: 40px;
+}
+.pipeline > div {
+  border-bottom: 1px solid #dce6ee;
+  padding: 18px 0;
+  font-size: 21px;
+  color: #9fabb8;
+  opacity: 0.2;
+}
+.pipeline > div.revealed {
+  opacity: 1;
+  color: #284765;
+}
+.pipeline span {
+  font-size: 11px;
+  color: #6093c6;
+  margin-right: 22px;
+}
+.pipeline small {
+  display: block;
+  margin-top: 28px;
+  color: #8395a6;
+  font-size: 13px;
+}
+.repo {
+  font-size: 24px;
+  color: #2e7dc3;
+  margin-top: 20px;
+  letter-spacing: -0.4px;
+}
+.opensource {
+  margin-top: 24px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #93a2b2;
+}
+.cashflow {
+  display: flex;
+  gap: 19px;
+  align-items: flex-end;
+  height: 130px;
+  margin-top: 36px;
+}
+.cashflow > div {
+  width: 43px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+.cashflow span {
+  width: 35px;
+  border-radius: 5px;
+}
+.cashflow small {
+  font-size: 10px;
+  color: #8094a9;
+}
+footer {
+  position: absolute;
+  left: 90px;
+  right: 90px;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  color: #8c9dad;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
+.progress {
+  height: 2px;
+  flex: 1;
+  background: #dfe7ee;
+}
+.progress i {
+  display: block;
+  height: 2px;
+  background: #428bd4;
+}
