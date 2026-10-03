@@ -1,0 +1,47 @@
+[
+  {
+    "preset": "mountain",
+    "revision": "7a783fe18adeeb7e",
+    "greenhouses": 0,
+    "mean_sun_hours": 12.82,
+    "coverage_pct": 98.2,
+    "distance_m": 2387.96,
+    "duration_min": 13.27,
+    "feasible": 21,
+    "plans": [
+      "P041",
+      "P005",
+      "P050"
+    ]
+  },
+  {
+    "preset": "glass",
+    "revision": "752064a93b80f33c",
+    "greenhouses": 3,
+    "mean_sun_hours": 10.0,
+    "coverage_pct": 97.6,
+    "distance_m": 2459.48,
+    "duration_min": 13.66,
+    "feasible": 43,
+    "plans": [
+      "P005",
+      "P002",
+      "P046"
+    ]
+  },
+  {
+    "preset": "flight",
+    "revision": "c3b14b786c9cd6f1",
+    "greenhouses": 0,
+    "mean_sun_hours": 10.0,
+    "coverage_pct": 98.8,
+    "distance_m": 2968.31,
+    "duration_min": 16.49,
+    "feasible": 18,
+    "plans": [
+      "P041",
+      "P005",
+      "P050"
+    ]
+  }
+]

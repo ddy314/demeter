@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="460" viewBox="0 0 1440 460" role="img" aria-labelledby="title desc">
+<title id="title">Demeter — Shape the land. See what grows.</title><desc id="desc">An architectural illustration of layered blue terraces, orchard rows and a connected water network.</desc>
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f5f9ff"/><stop offset="1" stop-color="#e5effb"/></linearGradient>
+ <linearGradient id="top" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#d9e8fa"/></linearGradient>
+ <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#a5bcd6" stroke-width=".5" opacity=".24"/></pattern>
+ <g id="tree"><path d="M0 0v-15" stroke="#7090b5" stroke-width="3"/><ellipse cy="-21" rx="10" ry="15" fill="#92b9e6"/><ellipse cx="-3" cy="-25" rx="6" ry="10" fill="#c4dcf7"/></g>
+</defs>
+<rect width="1440" height="460" rx="24" fill="url(#bg)"/>
+<rect x="730" width="710" height="460" fill="url(#grid)"/>
+<g font-family="Arial, Helvetica, sans-serif">
+ <rect x="64" y="58" width="34" height="34" rx="10" fill="#2275ed"/><path d="M75 67h5a9 9 0 0 1 0 18h-5z" fill="none" stroke="white" stroke-width="3"/>
+ <text x="112" y="81" font-size="13" font-weight="700" letter-spacing="3" fill="#526a87">SPATIAL ORCHARD STUDIO</text>
+ <text x="60" y="196" font-size="86" font-weight="700" letter-spacing="-5" fill="#10223d">Demeter</text>
+ <text x="64" y="249" font-size="29" letter-spacing="-.7" fill="#334f73">Shape the land. See what grows.</text>
+ <text x="65" y="298" font-size="16" fill="#607895">From a hillside to a living, computed landscape.</text>
+ <path d="M65 351h42" stroke="#2275ed" stroke-width="3"/>
+ <text x="121" y="356" font-size="11" letter-spacing="2" font-weight="700" fill="#627b9b">TERRAIN / LIGHT / WATER / FLIGHT</text>
+</g>
+<g stroke-linejoin="round">
+ <path d="M793 284 1076 373 1344 260 1061 172Z" fill="#bad1ed"/>
+ <path d="M793 284v27l283 89v-27Z" fill="#91b1d8"/><path d="m1076 373 268-113v27l-268 113Z" fill="#a9c4e5"/>
+ <path d="m823 260 259 82 231-98-259-82Z" fill="url(#top)" stroke="#c1d3ea"/><path d="m823 260 259 82v17l-259-82Z" fill="#9cbbe1"/><path d="m1082 342 231-98v17l-231 98Z" fill="#bed4ec"/>
+ <path d="m854 229 230 73 193-81-230-73Z" fill="url(#top)" stroke="#c1d3ea"/><path d="m854 229 230 73v17l-230-73Z" fill="#a9c5e5"/><path d="m1084 302 193-81v17l-193 81Z" fill="#c4d8ef"/>
+ <path d="m886 200 199 63 157-66-199-63Z" fill="url(#top)" stroke="#c1d3ea"/><path d="m886 200 199 63v16l-199-63Z" fill="#afcae9"/><path d="m1085 263 157-66v16l-157 66Z" fill="#c9def3"/>
+ <path d="m913 171 171 54 123-52-171-54Z" fill="url(#top)" stroke="#c1d3ea"/><path d="m913 171 171 54v16l-171-54Z" fill="#b5cfec"/><path d="m1084 225 123-52v16l-123 52Z" fill="#d0e1f5"/>
+ <g fill="none" stroke="#398aff" stroke-width="3"><path d="m845 280 255 81 174-74M876 248l231 73 137-58M908 218l201 63 99-42M939 189l174 55 61-26M970 161l150 47 22-9"/><path d="m1266 290-124-91" stroke="#72aaff"/></g>
+ <g><use href="#tree" x="971" y="151"/><use href="#tree" x="1010" y="163"/><use href="#tree" x="1049" y="175"/><use href="#tree" x="1088" y="188"/>
+ <use href="#tree" x="940" y="182"/><use href="#tree" x="979" y="194"/><use href="#tree" x="1018" y="206"/><use href="#tree" x="1057" y="218"/>
+ <use href="#tree" x="910" y="211"/><use href="#tree" x="949" y="223"/><use href="#tree" x="988" y="235"/><use href="#tree" x="1027" y="247"/>
+ <use href="#tree" x="880" y="242"/><use href="#tree" x="919" y="254"/><use href="#tree" x="958" y="266"/><use href="#tree" x="997" y="278"/>
+ <use href="#tree" x="849" y="273"/><use href="#tree" x="888" y="285"/><use href="#tree" x="927" y="297"/><use href="#tree" x="966" y="309"/>
+ </g>
+ <path d="M1190 92v59m-7-52 7-7 7 7" fill="none" stroke="#6b9dd7" stroke-width="1.5"/>
+ <circle cx="1190" cy="80" r="4" fill="#398aff"/>
+</g>
+</svg>

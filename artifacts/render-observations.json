@@ -1,0 +1,15 @@
+{
+  "scope": "Paused greenhouse scene; CDP main-thread durations, not FPS. Before:108 trees, 123.9s. After:244 trees, 45.4s, includes camera settling. Viewport changed during session; observational, not controlled benchmark.",
+  "baseline": {
+    "seconds": 123.90213800000492,
+    "taskMsPerSecond": 25.508696226047967,
+    "scriptMsPerSecond": 22.823375331908217,
+    "heapMB": 59.163482666015625
+  },
+  "expanded": {
+    "seconds": 45.44227200001478,
+    "taskMsPerSecond": 6.130371298334487,
+    "scriptMsPerSecond": 4.465027628898807,
+    "heapMB": 69.99565124511719
+  }
+}

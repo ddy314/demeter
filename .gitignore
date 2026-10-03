@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+artifacts/private/
+
+node_modules/
+dist/
+.pytest_cache/
+data/runs/*
+!data/runs/.gitkeep
+artifacts/*.log
+
+.ruff_cache/

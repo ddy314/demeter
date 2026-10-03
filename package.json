@@ -1,0 +1,41 @@
+{
+  "name": "demeter-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite --host 127.0.0.1 --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "test": ".venv/bin/python -m pytest -q && node --experimental-strip-types --test tests/demo-finance.test.mjs",
+    "start": ".venv/bin/python -m uvicorn engine.api:app --host 127.0.0.1 --port 8000",
+    "check": "tsc --noEmit && .venv/bin/ruff check engine tests",
+    "format": "prettier --write apps/web/src scripts/dev.mjs && .venv/bin/ruff format engine tests"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "lucide-react": "^1.51.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2"
+  },
+  "description": "A cinematic 3D orchard studio powered by geometry and engineering.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddy314/demeter.git"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
