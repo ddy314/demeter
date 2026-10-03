@@ -1,0 +1,32 @@
+[
+  {
+    "id": "mountain",
+    "prompt": "Plan a 180 \u00d7 105 m hillside orchard with a 32 m elevation change. Study summer sunlight, compare irrigation networks, simulate drone coverage and estimate annual costs and returns. Finish with a guided tour of the design.",
+    "scene": {
+      "width": 180,
+      "depth": 105,
+      "rise": 32
+    },
+    "inputs": {
+      "day": 172
+    }
+  },
+  {
+    "id": "glass",
+    "prompt": "Place three light-transmitting greenhouses on level terraces in a gently sloping orchard. Analyze winter shade and roof transmission, design irrigation and route a drone around the structures. Compare five-year cash flow using the supplied price, yield and construction costs.",
+    "scene": {},
+    "inputs": {
+      "greenhouses": 3,
+      "day": 355
+    }
+  },
+  {
+    "id": "flight",
+    "prompt": "Explore winter sunlight across a hillside orchard. Plan drone coverage with a 4 m swath, showing flight, spraying, transit and coverage. Calculate irrigation and annual operating costs, then tour the results with a moving camera.",
+    "scene": {},
+    "inputs": {
+      "day": 355,
+      "swath_m": 4
+    }
+  }
+]

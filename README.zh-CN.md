@@ -49,7 +49,7 @@ Demeter 将地形、设施和作业规划放进同一个交互场景。选择一
 
 **Along the Mountain Wind** — 更陡的冬季山地，4 m 无人机作业幅宽，覆盖与成本导览。
 
-提示词入口在本地运行这些可复现预设；自由语言驱动设计属于后续模型集成方向。
+提示词可以直接编辑。结构化规划器将输入转成校验后的场景与分析参数，驱动实际工程计算。本地模拟器支持明确的参数指令；Nebius 适配器通过同一工具协议接入语言模型。
 
 ![梯田上的果树逐行生长](artifacts/english-growth.jpg)
 
@@ -71,7 +71,14 @@ uv sync --locked
 npm run dev
 ```
 
-打开 **[localhost:5173](http://localhost:5173)**。启动器同时运行前端与 Python API，本地演示无需 API key。
+打开 **[localhost:5173](http://localhost:5173)**。启动器同时运行前端与 Python API，本地模拟器无需 API key。选择 **Try a custom plan**，或输入：
+
+```text
+Plan a 160 x 90 m orchard; rise 12 m; budget 40k;
+two greenhouses; winter; swath 4 m.
+```
+
+接入真实模型时，将 `.env.example` 复制为 `.env`，配置 `DEMETER_MODEL_PROVIDER=nebius`、`NEBIUS_API_KEY` 与 `NEBIUS_MODEL`，再刷新页面。参见[规划协议与配置](docs/DESIGN.md)。
 
 要由 Python 应用提供生产版前端，先停止开发服务，再运行：
 
@@ -86,7 +93,10 @@ npm start
 
 ```mermaid
 flowchart LR
-    A[场景预设或地块编辑] --> B[版本化场景]
+    A[可编辑提示词] --> P[模型或本地模拟器]
+    P --> V[工具调用校验]
+    V --> B[版本化场景]
+    W[地块编辑] --> B
     B --> C[地形与路由]
     C --> D[EPANET 搜索]
     B --> E[日照 · 大棚 · 航线]
@@ -117,6 +127,7 @@ engine/
   hydraulics.py    EPANET 适配、设备目录与材料成本
   optimizer.py     候选搜索、Pareto 方案与敏感性分析
   demo.py          日照、大棚选址与无人机分析
+  design.py        模型适配、结构化补丁与输入校验
   api.py           FastAPI 接口、求解事件与导出
 scripts/           开发启动器与可复现演示检查
 tests/             物理、几何、API 与经营模型测试
@@ -129,10 +140,11 @@ docs/              研究、架构与技术验证
 npm run check                       # TypeScript + Ruff
 npm test                            # Python + 经营模型测试
 npm run build                       # 生产版前端
-.venv/bin/python scripts/verify_demo.py  # 计算三个完整预设
+uv run python -m scripts.verify_demo    # 计算三个完整预设
+uv run python -m scripts.verify_design  # 提示词 → 分析 → EPANET → 导出
 ```
 
-[研究路线](docs/PLAN.md)涵盖后续设备标定、实测地形导入和结构化语言模型适配。[Nebius 工具调用脚本](docs/NEBIUS_SETUP.md)为模型集成提供独立起点。
+[规划器指南](docs/DESIGN.md)说明本地指令、模型配置及结构化响应格式。[研究路线](docs/PLAN.md)涵盖设备标定、实测地形导入和更丰富的规划工具。
 
 ## 许可
 

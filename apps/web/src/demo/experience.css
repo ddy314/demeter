@@ -1250,3 +1250,35 @@
     padding: 0;
   }
 }
+
+.composer-caption button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #567087;
+  font: inherit;
+}
+.composer-caption button:hover {
+  color: #2679ba;
+}
+.prompt-composer:focus-within {
+  border-color: #95bad8;
+}
+.prompt-composer .start-demo:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+}
+.model-spinner {
+  animation: model-spin 1.1s linear infinite;
+}
+@keyframes model-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .model-spinner {
+    animation: none;
+  }
+}

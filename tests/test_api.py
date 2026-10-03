@@ -12,12 +12,13 @@ from engine.optimizer import Cancelled
 @pytest.fixture
 def client(tmp_path, monkeypatch):
     monkeypatch.setattr(module, "RUN_DIR", tmp_path)
+    monkeypatch.setenv("DEMETER_MODEL_PROVIDER", "mock")
     with TestClient(module.app) as c:
         yield c
 
 
 def test_health_and_validation(client):
-    assert client.get("/api/health").json()["model"] == "offline"
+    assert client.get("/api/health").json()["model"] == "mock"
     assert client.post("/api/preview", json={"source": [0, 0]}).status_code == 422
     result = client.post("/api/preview", json=Scene().model_dump())
     assert result.status_code == 200

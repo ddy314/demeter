@@ -116,3 +116,15 @@ For fields above 180 nodes, canopy geometry uses 160 wider leaves per tree inste
 Paused-scene CDP observations are in [render-observations.json](../artifacts/render-observations.json). They include different sampling windows and a viewport change, so no controlled FPS improvement is claimed. Screenshots: [English orchard](../artifacts/english-orchard.jpg), [English workbench](../artifacts/english-workbench.jpg).
 
 Final browser checks: the expanded hillside scene shows 244 nodes and 1.24 ha; the GPU growth timeline paused at 7.6 seconds correctly shows completed lower rows and partially formed upper rows. Clay/Natural switching, assembly-to-tour transition and the English Terrain chapter work. No browser console error was captured. The main README is now English, with the Chinese version preserved as `README.zh-CN.md`.
+
+## Structured planner integration
+
+The editable prompt now calls `/api/design`. A local simulator and a Nebius function-calling adapter feed the same validated patch contract. The model response is never used as a source of computed engineering results.
+
+- `npm run check` and `npm run build`: passed.
+- `npm test`: 68 Python tests and 3 financial-model tests passed.
+- `uv run python -m scripts.verify_design`: custom prompt resolved to a 160 × 90 m scene with 12 m rise, CNY 40,000 irrigation budget, 2 greenhouses, winter sun and a 4 m drone swath. The engines produced 188 nodes, 97.3% geometric flight coverage, 108 evaluated hydraulic configurations and 58 feasible candidates. The event stream and saved export were checked against the scene revision.
+- Browser: custom-plan selection, construction and all six camera chapters completed. The downloaded JSON included the model trace, both greenhouses, the requested dimensions and swath, all 108 candidates and 34 solver events sharing the expected revision. No browser console errors were reported during this run.
+- Provider adapter: loopback HTTP tests exercised the real request serialization, tool schema, response parsing, usage extraction, rejection of redirects and HTTP failures. Timeout and concurrency paths were tested separately. No cloud model was called.
+
+Reproducible report: [design-validation.json](../artifacts/design-validation.json). Wire-format fixture: [model-tool-call.json](../examples/model-tool-call.json). Configuration and contract: [planner guide](DESIGN.md).

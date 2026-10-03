@@ -19,6 +19,7 @@ import {
   Download,
   SlidersHorizontal,
   Sparkles,
+  LoaderCircle,
 } from "lucide-react";
 import {
   api,
@@ -33,7 +34,13 @@ import {
 import { PRESETS } from "./presets";
 import { BUILD_DURATION, BUILD_STEPS } from "./timeline";
 import { calculateEconomics } from "./finance";
-import type { Study, Shot, DemoScene } from "./types";
+import type {
+  Study,
+  Shot,
+  DemoScene,
+  DesignResponse,
+  DesignTrace,
+} from "./types";
 import "./experience.css";
 const Scene3D = lazy(() => import("../Scene3D"));
 const CHAPTERS = [
@@ -98,7 +105,12 @@ export default function Experience({
 }) {
   const [presetId, setPresetId] = useState("glass");
   const preset = PRESETS.find((p) => p.id === presetId)!;
-  const scene = preset.scene;
+  const [scene, setScene] = useState(preset.scene);
+  const [inputs, setInputs] = useState(preset.inputs);
+  const [prompt, setPrompt] = useState(preset.prompt);
+  const [planning, setPlanning] = useState(false);
+  const [designTrace, setDesignTrace] = useState<DesignTrace>();
+  const [providerLabel, setProviderLabel] = useState("Connecting");
   const [geometryScene, setGeometryScene] = useState(scene);
   const [geom, setGeom] = useState<Geometry>(),
     [study, setStudy] = useState<Study>(),
@@ -127,6 +139,7 @@ export default function Experience({
     eventLog = useRef<RunEvent[]>([]);
   const cancel = () => {
     generation.current++;
+    setPlanning(false);
     abort.current?.abort();
     stream.current?.close();
     stream.current = null;
@@ -136,6 +149,7 @@ export default function Experience({
     }
   };
   useEffect(() => {
+    if (geom && geometryScene === scene) return;
     const controller = new AbortController();
     setError("");
     api<Geometry>("/preview", scene, controller.signal)
@@ -148,6 +162,13 @@ export default function Experience({
       });
     return () => controller.abort();
   }, [scene]);
+  useEffect(() => {
+    const controller = new AbortController();
+    api<{ label: string }>("/design/config", undefined, controller.signal)
+      .then((config) => setProviderLabel(config.label))
+      .catch(() => setProviderLabel("Service unavailable"));
+    return () => controller.abort();
+  }, []);
   useEffect(() => () => cancel(), []);
   useEffect(() => {
     if (!playing || phase !== "building") return;
@@ -186,40 +207,74 @@ export default function Experience({
     }
   }, [chapterTime, chapter]);
   const begin = async () => {
-    if (!geom || geometryScene !== scene) return;
+    if (planning || !prompt.trim()) return;
     cancel();
     const token = generation.current,
       controller = new AbortController();
     abort.current = controller;
-    eventLog.current = [];
     setError("");
-    setStudy(undefined);
-    setPlan(undefined);
-    setResult(undefined);
-    setFrame(undefined);
-    setEvaluated(0);
-    setElapsed(0);
-    setChapter(0);
-    setChapterTime(0);
-    setPlaying(true);
-    setBuildKey((k) => k + 1);
-    setPhase("building");
-    setPrice(preset.inputs.price_kg);
-    setYieldValue(preset.inputs.yield_kg_tree);
-    api<Study>("/study", { scene, inputs: preset.inputs }, controller.signal)
-      .then((s) => {
-        if (token === generation.current) setStudy(s);
-      })
-      .catch((e) => {
-        if (e.name !== "AbortError" && token === generation.current) {
-          setError(e.message);
-          setPlaying(false);
-        }
-      });
+    setPlanning(true);
+    setDesignTrace(undefined);
+    const timeout = window.setTimeout(() => {
+      if (token === generation.current) {
+        setError("Design request timed out. Try again.");
+        controller.abort();
+      }
+    }, 60000);
     try {
+      const design = await api<DesignResponse>(
+        "/design",
+        { prompt, scene, inputs },
+        controller.signal,
+      );
+      window.clearTimeout(timeout);
+      if (token !== generation.current) return;
+      if (design.status === "clarification") {
+        setError(design.question);
+        return;
+      }
+      const resolvedScene = design.scene;
+      const resolvedGeom = design.geometry;
+      setScene(resolvedScene);
+      setInputs(design.inputs);
+      setGeom(resolvedGeom);
+      setGeometryScene(resolvedScene);
+      setDesignTrace(design.trace);
+      setProviderLabel(
+        design.trace.provider === "mock" ? "Local simulator" : "Nebius",
+      );
+      setPlanning(false);
+      eventLog.current = [];
+      setStudy(undefined);
+      setPlan(undefined);
+      setResult(undefined);
+      setFrame(undefined);
+      setEvaluated(0);
+      setElapsed(0);
+      setChapter(0);
+      setChapterTime(0);
+      setPlaying(true);
+      setBuildKey((k) => k + 1);
+      setPhase("building");
+      setPrice(design.inputs.price_kg);
+      setYieldValue(design.inputs.yield_kg_tree);
+      api<Study>(
+        "/study",
+        { scene: resolvedScene, inputs: design.inputs },
+        controller.signal,
+      )
+        .then((s) => {
+          if (token === generation.current) setStudy(s);
+        })
+        .catch((e) => {
+          if (e.name !== "AbortError" && token === generation.current) {
+            setError(e.message);
+            setPlaying(false);
+          }
+        });
       const run = await api<{ run_id: string }>(
         "/runs",
-        scene,
+        resolvedScene,
         controller.signal,
       );
       if (token !== generation.current) {
@@ -241,7 +296,7 @@ export default function Experience({
               candidate: data.latest,
               pressures: data.visual.pressures,
               outflows_lpm: data.visual.outflows_lpm,
-              edges: geom.routes?.[data.latest.layout] || [],
+              edges: resolvedGeom.routes?.[data.latest.layout] || [],
               seq: e.seq,
             });
         }
@@ -278,6 +333,9 @@ export default function Experience({
         setError((e as Error).message);
         setPlaying(false);
       }
+    } finally {
+      window.clearTimeout(timeout);
+      if (token === generation.current) setPlanning(false);
     }
   };
   const returnPrompt = () => {
@@ -433,7 +491,8 @@ export default function Experience({
   const exportDemo = () =>
     download(`demeter-${preset.id}-study.json`, {
       preset: preset.id,
-      prompt: preset.prompt,
+      prompt: designTrace?.prompt ?? prompt,
+      design: designTrace,
       scene,
       study,
       hydraulics: result,
@@ -716,7 +775,13 @@ export default function Experience({
                 key={p.id}
                 className={preset.id === p.id ? "active" : ""}
                 onClick={() => {
+                  cancel();
+                  setError("");
                   setPresetId(p.id);
+                  setScene(p.scene);
+                  setInputs(p.inputs);
+                  setPrompt(p.prompt);
+                  setDesignTrace(undefined);
                   setPrice(p.inputs.price_kg);
                   setYieldValue(p.inputs.yield_kg_tree);
                 }}
@@ -732,15 +797,53 @@ export default function Experience({
           </div>
           <div className="prompt-composer">
             <Sparkles size={19} />
-            <textarea aria-label="Demo prompt" readOnly value={preset.prompt} />
+            <textarea
+              aria-label="Demo prompt"
+              value={prompt}
+              maxLength={4000}
+              disabled={planning}
+              onChange={(e) => {
+                setPrompt(e.target.value);
+                setError("");
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                  e.preventDefault();
+                  void begin();
+                }
+              }}
+            />
             <button
               className="start-demo"
-              disabled={!geom || geometryScene !== scene || !!error}
+              disabled={planning || !prompt.trim()}
               onClick={begin}
               aria-label="Start demo"
             >
-              <ArrowUp size={22} />
+              {planning ? (
+                <LoaderCircle className="model-spinner" size={22} />
+              ) : (
+                <ArrowUp size={22} />
+              )}
             </button>
+          </div>
+          <div className="composer-caption" aria-live="polite">
+            <span>
+              {planning ? "Interpreting your design…" : providerLabel}
+            </span>
+            {planning ? (
+              <button onClick={cancel}>Cancel</button>
+            ) : (
+              <button
+                onClick={() => {
+                  setPrompt(
+                    "Plan a 160 x 90 m orchard; rise 12 m; budget 40k; two greenhouses; winter; swath 4 m.",
+                  );
+                  setError("");
+                }}
+              >
+                Try a custom plan <ArrowUpRight size={12} />
+              </button>
+            )}
           </div>
         </footer>
       ) : (

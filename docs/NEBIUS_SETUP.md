@@ -1,29 +1,29 @@
 # Nebius model integration
 
-Demeter's scenario presets and engineering engine run locally. The planned model adapter will turn natural-language requests into validated scene edits, then call the existing solver.
+Demeter's editable prompt calls a server-side planner. The local simulator and Nebius adapter use the same structured tool schema, validation and engineering pipeline.
+
+## Configure
+
+Copy `.env.example` to `.env`:
+
+```dotenv
+DEMETER_MODEL_PROVIDER=nebius
+NEBIUS_API_KEY=your-server-side-key
+NEBIUS_MODEL=your-available-model-id
+```
+
+Select a tool-capable model available to your account. Restart the application or reload the page after configuration to refresh the provider label; the backend reads settings for every design request. Run `npm run dev`, enter a design request and start the scene.
+
+Keep `DEMETER_MODEL_PROVIDER=mock` to exercise the complete application without a model account. The simulator emits function-call JSON that drives real geometry, sunlight, structure, flight and hydraulic calculations.
+
+See [Prompt-to-design pipeline](DESIGN.md) for the tool contract, supported local prompts, error behavior and repeatable end-to-end tests.
 
 ## Standalone tool-call check
 
-`scripts/nebius_smoke.py` exercises a two-request tool-call round trip with Nebius Token Factory. It uses Python's standard library and a synthetic constraint update.
-
-1. Copy `.env.example` to `.env`.
-2. Set `NEBIUS_API_KEY` and `NEBIUS_MODEL` to your API key and an available `nvidia/` model ID.
-3. Run:
+`scripts/nebius_smoke.py` remains available for a separate two-request round trip with an `nvidia/` model. It validates a synthetic budget/terrace update, sends the tool result back and reports latency and usage. It uses the configured provider account and does not run a hydraulic solve.
 
 ```sh
 python scripts/nebius_smoke.py
 ```
-
-The script requests a budget of CNY 8,000 with terraces T4 and T5 retained. It validates the exact tool name and arguments, applies the synthetic update locally, and submits the tool result for a final response. Each request has a 1,024-token output limit and a 60-second timeout. Running it uses the configured provider account.
-
-The output reports validation results, latency, token usage and the model response. The script is independent of the application and does not run a hydraulic solve.
-
-## Adapter design
-
-- Keep model credentials on the server.
-- Convert tool arguments to typed scene patches.
-- Validate geometry and constraints before scheduling a run.
-- Use solver results as the source for the model's explanation.
-- Record model usage alongside the scene revision and run ID.
 
 References: [Function calling](https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling) · [Structured output](https://docs.tokenfactory.nebius.com/ai-models-inference/json).

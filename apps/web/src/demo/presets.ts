@@ -1,3 +1,4 @@
+import designPrompts from "../../../../examples/design-prompts.json";
 import { DEFAULT } from "../types";
 import type { Preset, StudyInputs } from "./types";
 export const STUDY_DEFAULT: StudyInputs = {
@@ -21,8 +22,7 @@ export const PRESETS: Preset[] = [
     id: "mountain",
     title: "A Year on the Hillside",
     subtitle: "Mountain orchard · Integrated planning",
-    prompt:
-      "Plan a 180 × 105 m hillside orchard with a 32 m elevation change. Study summer sunlight, compare irrigation networks, simulate drone coverage and estimate annual costs and returns. Finish with a guided tour of the design.",
+    prompt: designPrompts.find((p) => p.id === "mountain")!.prompt,
     scene: { ...DEMO_FIELD, budget: 46000 },
     inputs: { ...STUDY_DEFAULT },
   },
@@ -30,8 +30,7 @@ export const PRESETS: Preset[] = [
     id: "glass",
     title: "Room for Sunlight",
     subtitle: "Protected orchard · Three greenhouses",
-    prompt:
-      "Place three light-transmitting greenhouses on level terraces in a gently sloping orchard. Analyze winter shade and roof transmission, design irrigation and route a drone around the structures. Compare five-year cash flow using the supplied price, yield and construction costs.",
+    prompt: designPrompts.find((p) => p.id === "glass")!.prompt,
     scene: { ...DEMO_FIELD, name: "Sunfield Orchard", rise: 4, budget: 50000 },
     inputs: { ...STUDY_DEFAULT, day: 355, greenhouses: 3 },
   },
@@ -39,8 +38,7 @@ export const PRESETS: Preset[] = [
     id: "flight",
     title: "Along the Mountain Wind",
     subtitle: "Winter orchard · Flight paths & sunlight",
-    prompt:
-      "Explore winter sunlight across a hillside orchard. Plan drone coverage with a 4 m swath, showing flight, spraying, transit and coverage. Calculate irrigation and annual operating costs, then tour the results with a moving camera.",
+    prompt: designPrompts.find((p) => p.id === "flight")!.prompt,
     scene: {
       ...DEMO_FIELD,
       name: "Cloudridge Orchard",

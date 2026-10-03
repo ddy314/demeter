@@ -1,0 +1,20 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "message": {
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "id": "example-orchard-design",
+            "type": "function",
+            "function": {
+              "name": "propose_orchard_design",
+              "arguments": "{\"scene\":{\"width\":160,\"depth\":90,\"rise\":12,\"budget\":40000},\"inputs\":{\"greenhouses\":2,\"day\":355,\"swath_m\":4}}"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

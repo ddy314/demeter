@@ -15,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .demo import StudyRequest, study
+from .design import DesignError, DesignRequest, configuration, resolve_design
 from .geometry import make_geometry, network_tree
 from .models import Scene
 from .optimizer import Cancelled, optimize
@@ -33,9 +34,25 @@ def health():
     return {
         "status": "ok",
         "solver": "EPANET 2.2",
-        "model": "offline",
+        "model": configuration()["provider"],
         "catalog": "synthetic-water-v1",
     }
+
+
+@app.get("/api/design/config")
+def design_config():
+    return configuration()
+
+
+@app.post("/api/design")
+def design(request: DesignRequest):
+    try:
+        result = resolve_design(request)
+        if result["status"] == "ready":
+            result["geometry"] = preview(Scene.model_validate(result["scene"]))
+        return result
+    except DesignError as e:
+        raise HTTPException(e.status, str(e)) from e
 
 
 @app.post("/api/study")

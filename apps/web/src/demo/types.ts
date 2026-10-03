@@ -1,4 +1,4 @@
-import type { Scene } from "../types";
+import type { Geometry, Scene } from "../types";
 export type StudyInputs = {
   latitude: number;
   day: number;
@@ -89,3 +89,27 @@ export type Preset = {
   scene: Scene;
   inputs: StudyInputs;
 };
+
+export type DesignTrace = {
+  id: string;
+  provider: "mock" | "nebius";
+  model: string;
+  prompt: string;
+  tool: string;
+  patch: { scene?: Partial<Scene>; inputs?: Partial<StudyInputs> };
+  changes: { field: string; before: number | string; after: number | string }[];
+  base_revision: string;
+  revision: string;
+  created_at: string;
+  latency_ms: number;
+  usage: Record<string, number>;
+};
+export type DesignResponse =
+  | { status: "clarification"; question: string; provider: string }
+  | {
+      status: "ready";
+      scene: Scene;
+      inputs: StudyInputs;
+      geometry: Geometry;
+      trace: DesignTrace;
+    };

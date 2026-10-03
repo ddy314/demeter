@@ -51,7 +51,7 @@ Behind the scene, a Python engine evaluates hydraulic networks, terrain shade, g
 
 **Along the Mountain Wind** — A steeper winter orchard, 4 m drone swaths and a tour through coverage and operating costs.
 
-The prompt interface runs these reproducible scenarios locally. Free-form model-driven design is on the roadmap.
+The prompt is editable. A structured planner turns your request into validated scene and study parameters, then runs the actual engineering pipeline. The local simulator handles explicit parameter requests; the Nebius adapter uses the same tool contract for model-driven interpretation.
 
 ![Trees assembling across the terraces](artifacts/english-growth.jpg)
 
@@ -73,7 +73,14 @@ uv sync --locked
 npm run dev
 ```
 
-Open **[localhost:5173](http://localhost:5173)**. The launcher starts the frontend and Python API together. The local demo needs no API key.
+Open **[localhost:5173](http://localhost:5173)**. The launcher starts the frontend and Python API together. The local simulator needs no API key. Choose **Try a custom plan** or enter:
+
+```text
+Plan a 160 x 90 m orchard; rise 12 m; budget 40k;
+two greenhouses; winter; swath 4 m.
+```
+
+To use a real model, copy `.env.example` to `.env`, set `DEMETER_MODEL_PROVIDER=nebius`, `NEBIUS_API_KEY` and `NEBIUS_MODEL`, then reload the page. See the [planner contract and configuration](docs/DESIGN.md).
 
 For a production frontend served by the Python application, stop the development server, then run:
 
@@ -88,7 +95,10 @@ Open **[localhost:8000](http://localhost:8000)**. Interactive API documentation 
 
 ```mermaid
 flowchart LR
-    A[Scenario or plot editor] --> B[Versioned scene]
+    A[Editable prompt] --> P[Model or local simulator]
+    P --> V[Validated tool call]
+    V --> B[Versioned scene]
+    W[Plot editor] --> B
     B --> C[Terrain & routing]
     C --> D[EPANET search]
     B --> E[Sunlight · structures · flight]
@@ -119,6 +129,7 @@ engine/
   hydraulics.py    EPANET adapter, equipment catalog and material costs
   optimizer.py     Candidate search, Pareto plans and sensitivity analysis
   demo.py          Sunlight, greenhouse placement and drone studies
+  design.py        Model adapters, structured patches and input validation
   api.py           FastAPI endpoints, solver events and exports
 scripts/           Development launcher and reproducible demo checks
 tests/             Physics, geometry, API and financial-model tests
@@ -131,10 +142,11 @@ docs/              Research, architecture and technical validation
 npm run check                       # TypeScript + Ruff
 npm test                            # Python + financial-model tests
 npm run build                       # Production frontend
-.venv/bin/python scripts/verify_demo.py  # Evaluate all three presets
+uv run python -m scripts.verify_demo    # Evaluate all three presets
+uv run python -m scripts.verify_design  # Prompt → studies → EPANET → export
 ```
 
-See the [research roadmap](docs/PLAN.md) for upcoming work: calibrated equipment data, measured terrain import and a structured language-model adapter. An independent [Nebius tool-call script](docs/NEBIUS_SETUP.md) provides an integration starting point.
+See the [planner guide](docs/DESIGN.md) for supported local prompts, model setup and the structured response format. The [research roadmap](docs/PLAN.md) covers calibrated equipment data, measured terrain import and richer planning tools.
 
 ## License
 
