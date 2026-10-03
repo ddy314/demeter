@@ -1,6 +1,6 @@
 # Demeter · the film
 
-A 2:46 English product film rendered from Demeter's actual scene components and engineering outputs. 1920 × 1080, 24 fps, H.264 / AAC, with English narration, original ambient music and both visible and selectable captions.
+A 2:46 English product film rendered from Demeter's actual scene components and engineering outputs. 1920 × 1080, 24 fps, H.264 / AAC, with English narration, original ambient music and visible captions and a separate timed SRT file.
 
 ## Render locally
 
