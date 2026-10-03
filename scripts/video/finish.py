@@ -79,6 +79,8 @@ if not args.captions_only:
             "48000",
             "-c:s",
             "mov_text",
+            "-disposition:s:0",
+            "0",
             "-metadata:s:a:0",
             "language=eng",
             "-metadata:s:s:0",
