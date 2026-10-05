@@ -32,6 +32,8 @@ Behind the scene, a Python engine evaluates hydraulic networks, terrain shade, g
 </tr>
 </table>
 
+**[Try the online demo](https://ddy314.github.io/demeter/)** · **[Download the container](https://github.com/ddy314/demeter/releases/latest)** · **[English startup guide](docs/QUICKSTART.md)**
+
 ## The experience
 
 |                           | What you can explore                                                                                                         |

@@ -17,6 +17,9 @@
 
 ![Demeter 三维梯田果园](artifacts/english-orchard.jpg)
 
+
+**[在线演示](https://ddy314.github.io/demeter/)** · **[下载容器](https://github.com/ddy314/demeter/releases/latest)** · **[英文启动说明](docs/QUICKSTART.md)**
+
 ## 从一片山地，到一座果园
 
 Demeter 将地形、设施和作业规划放进同一个交互场景。选择一段场景提示词，看梯田逐层呈现、树木逐行生长、大棚骨架依次架起、管线沿供水路径延展，再跟随移动镜头探索计算结果。

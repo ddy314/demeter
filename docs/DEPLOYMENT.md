@@ -53,3 +53,11 @@ The same image can run on a CPU **Nebius Serverless Endpoint**, listening on por
 AI Cloud compute and storage are billed separately from Token Factory inference credits. Its account billing must be activated before starting an endpoint. An endpoint accrues compute and storage charges while running; stopping it stops both charges, according to the [Serverless AI billing documentation](https://docs.nebius.com/serverless/pricing-quotas). The current verification uses local production containers and real Token Factory inference.
 
 The hackathon accepts a runtime Token Factory API call as running on Nebius; AI Cloud application hosting is optional. See the [official project requirements](https://nebiusglobalaihackathon.devpost.com/rules).
+
+## GitHub Pages showcase and downloadable release
+
+The [Pages demo](https://ddy314.github.io/demeter/) serves the three interactive presets without a backend. Captures in `apps/web/public/showcase/` contain actual Nemotron tool proposals, geometry, study outputs and EPANET solver events. The browser replays those events while the original construction and camera timeline runs; light and economics controls remain interactive. There are no model credentials in the static build.
+
+To regenerate captures using real inference, run `uv run python -m scripts.prepare_pages`. This makes three Token Factory requests and solves all three scenarios. Commit the resulting JSON files, then the Pages workflow builds with `VITE_SHOWCASE=true` and publishes `dist`. It does not need cloud credentials. The normal build retains the full API-driven application.
+
+The downloadable Linux/amd64 image and [English startup guide](QUICKSTART.md) are published in [GitHub Releases](https://github.com/ddy314/demeter/releases/latest). The image defaults to the offline planner; users can enable real Nemotron calls with their own server-side Token Factory key.

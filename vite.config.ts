@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   root: "apps/web",
+  base: process.env.VITE_SHOWCASE === "true" ? "/demeter/" : "/",
   plugins: [react()],
   server: { proxy: { "/api": "http://127.0.0.1:8000" }, strictPort: true },
   build: {

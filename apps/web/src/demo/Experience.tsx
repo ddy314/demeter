@@ -32,6 +32,7 @@ import {
   type SolverFrame,
 } from "../types";
 import { PRESETS } from "./presets";
+import { SHOWCASE, loadCapture } from "./showcase";
 import { BUILD_DURATION, BUILD_STEPS } from "./timeline";
 import { calculateEconomics } from "./finance";
 import type {
@@ -137,7 +138,10 @@ export default function Experience({
     runId = useRef(""),
     generation = useRef(0),
     eventLog = useRef<RunEvent[]>([]);
+  const replayTimers = useRef<number[]>([]);
   const cancel = () => {
+    replayTimers.current.forEach(window.clearTimeout);
+    replayTimers.current = [];
     generation.current++;
     setPlanning(false);
     abort.current?.abort();
@@ -152,10 +156,15 @@ export default function Experience({
     if (geom && geometryScene === scene) return;
     const controller = new AbortController();
     setError("");
-    api<Geometry>("/preview", scene, controller.signal)
+    (SHOWCASE
+      ? loadCapture(presetId).then((c) => c.design.geometry)
+      : api<Geometry>("/preview", scene, controller.signal)
+    )
       .then((g) => {
-        setGeom(g);
-        setGeometryScene(scene);
+        if (!controller.signal.aborted) {
+          setGeom(g);
+          setGeometryScene(scene);
+        }
       })
       .catch((e) => {
         if (e.name !== "AbortError") setError(e.message);
@@ -163,6 +172,10 @@ export default function Experience({
     return () => controller.abort();
   }, [scene]);
   useEffect(() => {
+    if (SHOWCASE) {
+      setProviderLabel("Interactive showcase");
+      return;
+    }
     const controller = new AbortController();
     api<{ label: string }>("/design/config", undefined, controller.signal)
       .then((config) => setProviderLabel(config.label))
@@ -222,6 +235,62 @@ export default function Experience({
       }
     }, 60000);
     try {
+      if (SHOWCASE) {
+        const capture = await loadCapture(presetId);
+        if (token !== generation.current) return;
+        const design = capture.design;
+        setScene(design.scene);
+        setInputs(design.inputs);
+        setGeom(design.geometry);
+        setGeometryScene(design.scene);
+        setDesignTrace(design.trace);
+        setStudy(capture.study);
+        setPlan(undefined);
+        setResult(undefined);
+        setFrame(undefined);
+        setEvaluated(0);
+        setElapsed(0);
+        setChapter(0);
+        setChapterTime(0);
+        setPlaying(true);
+        setBuildKey((k) => k + 1);
+        setPhase("building");
+        setPrice(design.inputs.price_kg);
+        setYieldValue(design.inputs.yield_kg_tree);
+        eventLog.current = [];
+        capture.events.forEach((event, index) => {
+          replayTimers.current.push(
+            window.setTimeout(
+              () => {
+                if (token !== generation.current) return;
+                eventLog.current.push(event);
+                if (event.type === "search") {
+                  setEvaluated(Number(event.data.evaluated));
+                  const data = event.data as any;
+                  if (data.visual)
+                    setFrame({
+                      candidate: data.latest,
+                      pressures: data.visual.pressures,
+                      outflows_lpm: data.visual.outflows_lpm,
+                      edges: design.geometry.routes?.[data.latest.layout] || [],
+                      seq: event.seq,
+                    });
+                }
+                if (event.type === "complete") {
+                  const r = event.data as unknown as Result;
+                  setResult(r);
+                  setPlan(
+                    r.plans.find((p) => p.label === "balanced") || r.plans[0],
+                  );
+                  setFrame(undefined);
+                }
+              },
+              1000 + (index / Math.max(1, capture.events.length - 1)) * 22000,
+            ),
+          );
+        });
+        return;
+      }
       const design = await api<DesignResponse>(
         "/design",
         { prompt, scene, inputs },
@@ -515,7 +584,7 @@ export default function Experience({
       data-chapter={id}
     >
       <header className="experience-header">
-        <a className="experience-brand" href="/">
+        <a className="experience-brand" href={import.meta.env.BASE_URL}>
           d<span>demeter</span>
           <small>FIELD NOTES / 01</small>
         </a>
@@ -524,16 +593,18 @@ export default function Experience({
             <i />
             Interactive demo
           </span>
-          <button
-            onClick={() => {
-              cancel();
-              onWorkbench();
-            }}
-          >
-            <SlidersHorizontal size={14} />
-            Workbench
-            <ArrowUpRight size={13} />
-          </button>
+          {!SHOWCASE && (
+            <button
+              onClick={() => {
+                cancel();
+                onWorkbench();
+              }}
+            >
+              <SlidersHorizontal size={14} />
+              Workbench
+              <ArrowUpRight size={13} />
+            </button>
+          )}
           <button
             aria-label="Research & assumptions"
             onClick={() => {
@@ -802,6 +873,7 @@ export default function Experience({
               value={prompt}
               maxLength={4000}
               disabled={planning}
+              readOnly={SHOWCASE}
               onChange={(e) => {
                 setPrompt(e.target.value);
                 setError("");
@@ -832,6 +904,14 @@ export default function Experience({
             </span>
             {planning ? (
               <button onClick={cancel}>Cancel</button>
+            ) : SHOWCASE ? (
+              <a
+                href="https://github.com/ddy314/demeter/releases/latest"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Run your own plan <ArrowUpRight size={12} />
+              </a>
             ) : (
               <button
                 onClick={() => {
