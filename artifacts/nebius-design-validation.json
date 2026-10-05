@@ -1,0 +1,155 @@
+{
+  "design": {
+    "id": "4330ccb98c494a548e772e7779c036d6",
+    "provider": "nebius",
+    "model": "nvidia/nemotron-3-super-120b-a12b",
+    "prompt": "Plan a 160 x 90 m orchard; rise 12 m; budget 40k; two greenhouses; winter; swath 4 m.",
+    "tool": "propose_orchard_design",
+    "patch": {
+      "scene": {
+        "width": 160.0,
+        "depth": 90.0,
+        "rise": 12.0,
+        "budget": 40000.0
+      },
+      "inputs": {
+        "day": 355,
+        "greenhouses": 2,
+        "swath_m": 4.0
+      }
+    },
+    "changes": [
+      {
+        "field": "scene.width",
+        "before": 120.0,
+        "after": 160.0
+      },
+      {
+        "field": "scene.depth",
+        "before": 70.0,
+        "after": 90.0
+      },
+      {
+        "field": "scene.rise",
+        "before": 32.0,
+        "after": 12.0
+      },
+      {
+        "field": "scene.budget",
+        "before": 22000.0,
+        "after": 40000.0
+      },
+      {
+        "field": "inputs.day",
+        "before": 172,
+        "after": 355
+      },
+      {
+        "field": "inputs.greenhouses",
+        "before": 0,
+        "after": 2
+      },
+      {
+        "field": "inputs.swath_m",
+        "before": 5.0,
+        "after": 4.0
+      }
+    ],
+    "base_revision": "b52c09fdca44a628",
+    "revision": "e6e96cae89677930",
+    "created_at": "2026-10-05T07:32:54.624723+00:00",
+    "latency_ms": 2761,
+    "usage": {
+      "prompt_tokens": 2241,
+      "completion_tokens": 246,
+      "total_tokens": 2487
+    }
+  },
+  "scene": {
+    "version": 1,
+    "name": "Azure Terraces",
+    "width": 160.0,
+    "depth": 90.0,
+    "rise": 12.0,
+    "terraces": 5,
+    "spacing": 6.0,
+    "row_spacing": 8.0,
+    "boundary": [
+      [
+        0.08,
+        0.08
+      ],
+      [
+        0.78,
+        0.04
+      ],
+      [
+        0.96,
+        0.45
+      ],
+      [
+        0.87,
+        0.91
+      ],
+      [
+        0.13,
+        0.86
+      ]
+    ],
+    "source": [
+      0.15,
+      0.16
+    ],
+    "exclusions": [],
+    "budget": 40000.0,
+    "min_pressure": 0.24,
+    "max_pressure": 0.95,
+    "source_lpm": 220.0,
+    "volume_l": 4.0,
+    "seed": 42
+  },
+  "inputs": {
+    "latitude": 30.6,
+    "day": 355,
+    "greenhouses": 2,
+    "transmission": 0.72,
+    "greenhouse_cost_m2": 150.0,
+    "yield_kg_tree": 35.0,
+    "price_kg": 8.0,
+    "operating_cost_tree": 110.0,
+    "protected_yield_factor": 1.2,
+    "swath_m": 4.0,
+    "drone_speed_ms": 3.0,
+    "drone_service_mu": 18.0,
+    "annual_operations": 6
+  },
+  "nodes": 188,
+  "greenhouses": 2,
+  "mean_sun_hours": 10.0,
+  "coverage_pct": 97.3,
+  "annual_revenue_cny": 52976.0,
+  "evaluated": 108,
+  "feasible": 58,
+  "plans": [
+    {
+      "id": "P022",
+      "cost": 20597.08,
+      "duration_min": 8.04,
+      "min_pressure": 0.40693
+    },
+    {
+      "id": "P002",
+      "cost": 19738.14,
+      "duration_min": 13.23,
+      "min_pressure": 0.37118
+    },
+    {
+      "id": "P049",
+      "cost": 23101.37,
+      "duration_min": 7.93,
+      "min_pressure": 0.42921
+    }
+  ],
+  "events": 34,
+  "export_verified": true
+}

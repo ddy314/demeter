@@ -34,13 +34,13 @@ Behind the scene, a Python engine evaluates hydraulic networks, terrain shade, g
 
 ## The experience
 
-| | What you can explore |
-| :--- | :--- |
-| **Land & canopy** | Editable boundaries, exclusions and terraced elevation. Procedural trees rooted to the same terrain used by the solver. |
-| **Light & shelter** | A moving sun, terrain-obstructed direct sunlight and three greenhouse structures with adjustable transmission. |
-| **Water & pressure** | EPANET hydraulic solves, pump and pipe selection, rotational watering, pressure overlays and cost–time tradeoffs. |
-| **Flight & coverage** | Field-bounded sweep paths, obstacle-aware transfers, animated spray segments and calculated geometric coverage. |
-| **Costs & returns** | Capital costs, annual cash flow, payback and five-year NPV. Adjust yield and price to explore the outcome. |
+|                           | What you can explore                                                                                                         |
+| :------------------------ | :--------------------------------------------------------------------------------------------------------------------------- |
+| **Land & canopy**         | Editable boundaries, exclusions and terraced elevation. Procedural trees rooted to the same terrain used by the solver.      |
+| **Light & shelter**       | A moving sun, terrain-obstructed direct sunlight and three greenhouse structures with adjustable transmission.               |
+| **Water & pressure**      | EPANET hydraulic solves, pump and pipe selection, rotational watering, pressure overlays and cost–time tradeoffs.            |
+| **Flight & coverage**     | Field-bounded sweep paths, obstacle-aware transfers, animated spray segments and calculated geometric coverage.              |
+| **Costs & returns**       | Capital costs, annual cash flow, payback and five-year NPV. Adjust yield and price to explore the outcome.                   |
 | **Construction & camera** | A 26-second assembly timeline, six guided camera chapters, pause, scrub, replay and natural or architectural clay materials. |
 
 ### Three ways into the landscape
@@ -51,7 +51,7 @@ Behind the scene, a Python engine evaluates hydraulic networks, terrain shade, g
 
 **Along the Mountain Wind** — A steeper winter orchard, 4 m drone swaths and a tour through coverage and operating costs.
 
-The prompt is editable. A structured planner turns your request into validated scene and study parameters, then runs the actual engineering pipeline. The local simulator handles explicit parameter requests; the Nebius adapter uses the same tool contract for model-driven interpretation.
+The prompt is editable. A structured planner turns your request into validated scene and study parameters, then runs the actual engineering pipeline. NVIDIA Nemotron 3 Super on Nebius Token Factory interprets the brief through a validated tool contract; the engineering engines compute the results. An offline planner is available for local development.
 
 ![Trees assembling across the terraces](artifacts/english-growth.jpg)
 
@@ -80,7 +80,7 @@ Plan a 160 x 90 m orchard; rise 12 m; budget 40k;
 two greenhouses; winter; swath 4 m.
 ```
 
-To use a real model, copy `.env.example` to `.env`, set `DEMETER_MODEL_PROVIDER=nebius`, `NEBIUS_API_KEY` and `NEBIUS_MODEL`, then reload the page. See the [planner contract and configuration](docs/DESIGN.md).
+To use NVIDIA Nemotron 3 Super, copy `.env.example` to `.env`, set `DEMETER_MODEL_PROVIDER=nebius` and your `NEBIUS_API_KEY`, then reload the page. The model ID is already provided. See [container deployment and live verification](docs/DEPLOYMENT.md) or the [planner contract](docs/DESIGN.md).
 
 For a production frontend served by the Python application, stop the development server, then run:
 

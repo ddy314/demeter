@@ -1,0 +1,324 @@
+{
+  "provider": "nebius",
+  "model": "nvidia/nemotron-3-super-120b-a12b",
+  "verified_at": "2026-10-05T07:49:07.798771+00:00",
+  "passed": 6,
+  "cases": [
+    {
+      "id": "mountain",
+      "passed": true,
+      "status": "ready",
+      "trace": {
+        "id": "6e7a3bf9be2d477b917010aa25db0987",
+        "provider": "nebius",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "prompt": "Plan a 180 \u00d7 105 m hillside orchard with a 32 m elevation change. Study summer sunlight, compare irrigation networks, simulate drone coverage and estimate annual costs and returns. Finish with a guided tour of the design.",
+        "tool": "propose_orchard_design",
+        "patch": {
+          "scene": {
+            "name": "Azure Terraces",
+            "width": 180.0,
+            "depth": 105.0,
+            "rise": 32.0,
+            "terraces": 5,
+            "spacing": 6.0,
+            "row_spacing": 8.0,
+            "budget": 46000.0,
+            "min_pressure": 0.24,
+            "max_pressure": 0.95,
+            "source_lpm": 220.0,
+            "volume_l": 4.0
+          },
+          "inputs": {
+            "latitude": 30.6,
+            "day": 172,
+            "greenhouses": 0,
+            "transmission": 0.72,
+            "greenhouse_cost_m2": 150.0,
+            "yield_kg_tree": 35.0,
+            "price_kg": 8.0,
+            "operating_cost_tree": 110.0,
+            "protected_yield_factor": 1.2,
+            "swath_m": 5.0,
+            "drone_speed_ms": 3.0,
+            "drone_service_mu": 18.0,
+            "annual_operations": 6
+          }
+        },
+        "changes": [],
+        "base_revision": "7a783fe18adeeb7e",
+        "revision": "7a783fe18adeeb7e",
+        "created_at": "2026-10-05T07:48:50.255287+00:00",
+        "latency_ms": 2701,
+        "usage": {
+          "prompt_tokens": 1864,
+          "completion_tokens": 373,
+          "total_tokens": 2237
+        }
+      }
+    },
+    {
+      "id": "glass",
+      "passed": true,
+      "status": "ready",
+      "trace": {
+        "id": "1d39d00b7c2d4a8c86a6dbceb397e6ee",
+        "provider": "nebius",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "prompt": "Place three light-transmitting greenhouses on level terraces in a gently sloping orchard. Analyze winter shade and roof transmission, design irrigation and route a drone around the structures. Compare five-year cash flow using the supplied price, yield and construction costs.",
+        "tool": "propose_orchard_design",
+        "patch": {
+          "scene": {
+            "name": "Sunfield Orchard",
+            "width": 180.0,
+            "depth": 105.0,
+            "rise": 4.0,
+            "terraces": 5,
+            "spacing": 6.0,
+            "row_spacing": 8.0,
+            "budget": 50000.0,
+            "min_pressure": 0.24,
+            "max_pressure": 0.95,
+            "source_lpm": 220.0,
+            "volume_l": 4.0
+          },
+          "inputs": {
+            "latitude": 30.6,
+            "day": 355,
+            "greenhouses": 3,
+            "transmission": 0.72,
+            "greenhouse_cost_m2": 150.0,
+            "yield_kg_tree": 35.0,
+            "price_kg": 8.0,
+            "operating_cost_tree": 110.0,
+            "protected_yield_factor": 1.2,
+            "swath_m": 5.0,
+            "drone_speed_ms": 3.0,
+            "drone_service_mu": 18.0,
+            "annual_operations": 6
+          }
+        },
+        "changes": [
+          {
+            "field": "inputs.day",
+            "before": 172,
+            "after": 355
+          },
+          {
+            "field": "inputs.greenhouses",
+            "before": 0,
+            "after": 3
+          }
+        ],
+        "base_revision": "752064a93b80f33c",
+        "revision": "752064a93b80f33c",
+        "created_at": "2026-10-05T07:48:52.886229+00:00",
+        "latency_ms": 2631,
+        "usage": {
+          "prompt_tokens": 1864,
+          "completion_tokens": 358,
+          "total_tokens": 2222
+        }
+      }
+    },
+    {
+      "id": "flight",
+      "passed": true,
+      "status": "ready",
+      "trace": {
+        "id": "e196a5b40ba341968ec6cc2b6ae93bac",
+        "provider": "nebius",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "prompt": "Explore winter sunlight across a hillside orchard. Plan drone coverage with a 4 m swath, showing flight, spraying, transit and coverage. Calculate irrigation and annual operating costs, then tour the results with a moving camera.",
+        "tool": "propose_orchard_design",
+        "patch": {
+          "scene": {},
+          "inputs": {
+            "day": 355,
+            "swath_m": 4.0
+          }
+        },
+        "changes": [
+          {
+            "field": "inputs.day",
+            "before": 172,
+            "after": 355
+          },
+          {
+            "field": "inputs.swath_m",
+            "before": 5,
+            "after": 4.0
+          }
+        ],
+        "base_revision": "c3b14b786c9cd6f1",
+        "revision": "c3b14b786c9cd6f1",
+        "created_at": "2026-10-05T07:48:55.566817+00:00",
+        "latency_ms": 2680,
+        "usage": {
+          "prompt_tokens": 1860,
+          "completion_tokens": 139,
+          "total_tokens": 1999
+        }
+      }
+    },
+    {
+      "id": "natural-language",
+      "passed": true,
+      "status": "ready",
+      "trace": {
+        "id": "85b2dd5b8fef419d97080734fa2ad5ad",
+        "provider": "nebius",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "prompt": "Please make the orchard 160 metres across and 90 metres deep, with a 12-metre rise. Allow CNY 40000 for irrigation, add two greenhouses, examine winter sunlight and use a 4-metre drone swath.",
+        "tool": "propose_orchard_design",
+        "patch": {
+          "scene": {
+            "name": "Azure Terraces",
+            "width": 160.0,
+            "depth": 90.0,
+            "rise": 12.0,
+            "terraces": 5,
+            "spacing": 6.0,
+            "row_spacing": 8.0,
+            "budget": 40000.0,
+            "min_pressure": 0.24,
+            "max_pressure": 0.95,
+            "source_lpm": 220.0,
+            "volume_l": 4.0
+          },
+          "inputs": {
+            "latitude": 30.6,
+            "day": 355,
+            "greenhouses": 2,
+            "transmission": 0.72,
+            "greenhouse_cost_m2": 150.0,
+            "yield_kg_tree": 35.0,
+            "price_kg": 8.0,
+            "operating_cost_tree": 110.0,
+            "protected_yield_factor": 1.2,
+            "swath_m": 4.0,
+            "drone_speed_ms": 3.0,
+            "drone_service_mu": 18.0,
+            "annual_operations": 6
+          }
+        },
+        "changes": [
+          {
+            "field": "scene.width",
+            "before": 120.0,
+            "after": 160.0
+          },
+          {
+            "field": "scene.depth",
+            "before": 70.0,
+            "after": 90.0
+          },
+          {
+            "field": "scene.rise",
+            "before": 32.0,
+            "after": 12.0
+          },
+          {
+            "field": "scene.budget",
+            "before": 22000.0,
+            "after": 40000.0
+          },
+          {
+            "field": "inputs.day",
+            "before": 172,
+            "after": 355
+          },
+          {
+            "field": "inputs.greenhouses",
+            "before": 0,
+            "after": 2
+          },
+          {
+            "field": "inputs.swath_m",
+            "before": 5,
+            "after": 4.0
+          }
+        ],
+        "base_revision": "b52c09fdca44a628",
+        "revision": "e6e96cae89677930",
+        "created_at": "2026-10-05T07:48:58.770506+00:00",
+        "latency_ms": 3203,
+        "usage": {
+          "prompt_tokens": 1869,
+          "completion_tokens": 541,
+          "total_tokens": 2410
+        }
+      }
+    },
+    {
+      "id": "preserve-unspecified",
+      "passed": true,
+      "status": "ready",
+      "trace": {
+        "id": "9fdfbdea5cb7484cae0820f14fffddef",
+        "provider": "nebius",
+        "model": "nvidia/nemotron-3-super-120b-a12b",
+        "prompt": "Don't change the terrain, irrigation budget or crop assumptions. Just add two greenhouses and study the winter solstice.",
+        "tool": "propose_orchard_design",
+        "patch": {
+          "scene": {
+            "name": "Azure Terraces",
+            "width": 120.0,
+            "depth": 70.0,
+            "rise": 32.0,
+            "terraces": 5,
+            "spacing": 6.0,
+            "row_spacing": 8.0,
+            "budget": 22000.0,
+            "min_pressure": 0.24,
+            "max_pressure": 0.95,
+            "source_lpm": 220.0,
+            "volume_l": 4.0
+          },
+          "inputs": {
+            "latitude": 30.6,
+            "day": 355,
+            "greenhouses": 2,
+            "transmission": 0.72,
+            "greenhouse_cost_m2": 150.0,
+            "yield_kg_tree": 35.0,
+            "price_kg": 8.0,
+            "operating_cost_tree": 110.0,
+            "protected_yield_factor": 1.2,
+            "swath_m": 5.0,
+            "drone_speed_ms": 3.0,
+            "drone_service_mu": 18.0,
+            "annual_operations": 6
+          }
+        },
+        "changes": [
+          {
+            "field": "inputs.day",
+            "before": 172,
+            "after": 355
+          },
+          {
+            "field": "inputs.greenhouses",
+            "before": 0,
+            "after": 2
+          }
+        ],
+        "base_revision": "b52c09fdca44a628",
+        "revision": "b52c09fdca44a628",
+        "created_at": "2026-10-05T07:49:02.093509+00:00",
+        "latency_ms": 3323,
+        "usage": {
+          "prompt_tokens": 1836,
+          "completion_tokens": 364,
+          "total_tokens": 2200
+        }
+      }
+    },
+    {
+      "id": "ambiguous-request",
+      "passed": true,
+      "status": "clarification",
+      "question": "Could you specify what aspects you'd like to improve (e.g., increase yield, reduce cost, adjust layout, add greenhouses, etc.)?"
+    }
+  ]
+}

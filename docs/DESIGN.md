@@ -25,21 +25,21 @@ The simulator produces an OpenAI-compatible function-call envelope. The applicat
 
 The three showcase prompts are shared between frontend and backend in [`examples/design-prompts.json`](../examples/design-prompts.json). Other local requests use semicolon-separated parameter clauses:
 
-| Clause | Field | Unit |
-| --- | --- | --- |
-| `Plan a 160 x 90 m orchard` | width, depth | m |
-| `rise 12 m` | elevation change | m |
-| `budget 40k` | irrigation installation budget | CNY |
-| `terraces 5` | terrace count | integer |
-| `tree spacing 6 m; row spacing 8 m` | planting spacing | m |
-| `two greenhouses` | requested structures | 0–4 |
-| `winter` / `summer` / `day 172` | day of year | 1–365 |
-| `latitude 30.6` | latitude | degrees |
-| `transmission 0.72` | roof transmission | fraction |
-| `swath 4 m; drone speed 3 m/s` | flight parameters | m, m/s |
-| `price 8 CNY/kg; yield 35 kg/tree` | economic inputs | CNY/kg, kg/tree/year |
-| `source flow 220 l/min` | source capacity | L/min |
-| `minimum pressure 0.24 MPa; maximum pressure 0.95 MPa` | pressure bounds | MPa |
+| Clause                                                 | Field                          | Unit                 |
+| ------------------------------------------------------ | ------------------------------ | -------------------- |
+| `Plan a 160 x 90 m orchard`                            | width, depth                   | m                    |
+| `rise 12 m`                                            | elevation change               | m                    |
+| `budget 40k`                                           | irrigation installation budget | CNY                  |
+| `terraces 5`                                           | terrace count                  | integer              |
+| `tree spacing 6 m; row spacing 8 m`                    | planting spacing               | m                    |
+| `two greenhouses`                                      | requested structures           | 0–4                  |
+| `winter` / `summer` / `day 172`                        | day of year                    | 1–365                |
+| `latitude 30.6`                                        | latitude                       | degrees              |
+| `transmission 0.72`                                    | roof transmission              | fraction             |
+| `swath 4 m; drone speed 3 m/s`                         | flight parameters              | m, m/s               |
+| `price 8 CNY/kg; yield 35 kg/tree`                     | economic inputs                | CNY/kg, kg/tree/year |
+| `source flow 220 l/min`                                | source capacity                | L/min                |
+| `minimum pressure 0.24 MPa; maximum pressure 0.95 MPa` | pressure bounds                | MPa                  |
 
 Unrecognized, negative or conflicting local instructions return a clarification without applying partial edits. The simulator is bounded grammar, not a trained language model; unrestricted language interpretation uses the configured model provider.
 
@@ -49,8 +49,8 @@ Unrecognized, negative or conflicting local instructions return a clarification 
 
 ```json
 {
-  "scene": {"width": 160, "depth": 90, "rise": 12, "budget": 40000},
-  "inputs": {"greenhouses": 2, "day": 355, "swath_m": 4}
+  "scene": { "width": 160, "depth": 90, "rise": 12, "budget": 40000 },
+  "inputs": { "greenhouses": 2, "day": 355, "swath_m": 4 }
 }
 ```
 
@@ -69,7 +69,7 @@ Copy `.env.example` to `.env` and configure:
 ```dotenv
 DEMETER_MODEL_PROVIDER=nebius
 NEBIUS_API_KEY=your-server-side-key
-NEBIUS_MODEL=your-available-model-id
+NEBIUS_MODEL=nvidia/nemotron-3-super-120b-a12b
 ```
 
 Use the exact tool-capable model ID available to your account. Settings are read on each design request. Reload the page after switching providers to refresh its small provider label.
@@ -78,7 +78,7 @@ The adapter sends the prompt, base scene, study inputs and generated tool schema
 
 Keys stay server-side. Provider errors are reported without copying raw response bodies; redirects and automatic retries are disabled. A configured Nebius failure does not silently switch to simulated output. The default simulator makes no external calls.
 
-The adapter follows Nebius's [function-calling contract](https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling). Live account/model access is required to verify a real cloud round trip.
+The adapter follows Nebius's [function-calling contract](https://docs.tokenfactory.nebius.com/ai-models-inference/function-calling). The NVIDIA Nemotron 3 Super integration has been verified through real Token Factory requests and the complete geometry, study, EPANET and export workflow. Provider tool schemas inline nested field definitions and retain the engineering bounds, including explicit season-to-day mapping. See [live verification and deployment](DEPLOYMENT.md).
 
 ## Reproduce the complete workflow
 
@@ -93,3 +93,5 @@ uv run pytest tests/test_design.py -q
 ```
 
 Tests also start a loopback HTTP provider to exercise the actual Nebius request adapter without cloud credentials. Coverage includes schema failures, unchanged unspecified fields, unknown/contradictory instructions, HTTP errors, redirects, timeout handling, bounded concurrency and a genuinely infeasible budget.
+
+To verify the same workflow with real Token Factory inference, add `--provider nebius`. To target a running container or deployment, also pass `--base-url http://localhost:8080`. These options make external model requests; the default command remains offline.

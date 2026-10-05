@@ -1,14 +1,15 @@
-"""Run the offline planner -> geometry -> studies -> EPANET -> export workflow.
+"""Verify the planner -> geometry -> studies -> EPANET -> export workflow.
 
-Usage: uv run python -m scripts.verify_design
-Always uses the local simulator; never requests an external model.
+Defaults to offline verification. --provider nebius makes a real model request.
 """
 
+import argparse
 import json
 import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import httpx
 from fastapi.testclient import TestClient
 
 from engine import api
@@ -19,17 +20,28 @@ PROMPT = "Plan a 160 x 90 m orchard; rise 12 m; budget 40k; two greenhouses; win
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--provider", choices=("mock", "nebius"), default="mock")
+    parser.add_argument("--prompt", default=PROMPT)
+    parser.add_argument("--output", type=Path)
+    parser.add_argument("--base-url", help="Verify an already running HTTP deployment")
+    args = parser.parse_args()
     previous = os.environ.get("DEMETER_MODEL_PROVIDER")
     original_run_dir = api.RUN_DIR
-    os.environ["DEMETER_MODEL_PROVIDER"] = "mock"
+    os.environ["DEMETER_MODEL_PROVIDER"] = args.provider
     try:
         with TemporaryDirectory(prefix="demeter-design-") as directory:
             api.RUN_DIR = Path(directory)
-            with TestClient(api.app) as client:
+            client_context = (
+                httpx.Client(base_url=args.base_url, timeout=120)
+                if args.base_url
+                else TestClient(api.app)
+            )
+            with client_context as client:
                 resolved = client.post(
                     "/api/design",
                     json={
-                        "prompt": PROMPT,
+                        "prompt": args.prompt,
                         "scene": Scene().model_dump(mode="json"),
                         "inputs": StudyInputs().model_dump(),
                     },
@@ -37,6 +49,25 @@ def main():
                 resolved.raise_for_status()
                 design = resolved.json()
                 assert design["status"] == "ready"
+                assert design["trace"]["provider"] == args.provider
+                if args.prompt == PROMPT:
+                    assert all(
+                        design["scene"][k] == v
+                        for k, v in {
+                            "width": 160,
+                            "depth": 90,
+                            "rise": 12,
+                            "budget": 40000,
+                        }.items()
+                    )
+                    assert all(
+                        design["inputs"][k] == v
+                        for k, v in {
+                            "greenhouses": 2,
+                            "day": 355,
+                            "swath_m": 4,
+                        }.items()
+                    )
                 response = client.post(
                     "/api/study",
                     json={
@@ -88,8 +119,12 @@ def main():
                     "events": len(events),
                     "export_verified": True,
                 }
-                path = Path("artifacts/design-validation.json")
-                path.parent.mkdir(exist_ok=True)
+                path = args.output or Path(
+                    f"artifacts/{args.provider}-design-validation.json"
+                    if args.provider != "mock"
+                    else "artifacts/design-validation.json"
+                )
+                path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps(report, indent=2) + "\n")
                 print(json.dumps(report, indent=2))
     finally:

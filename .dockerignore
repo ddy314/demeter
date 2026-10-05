@@ -1,0 +1,15 @@
+.git
+.env
+.env.*
+.venv
+node_modules
+dist
+artifacts
+data
+__pycache__
+.pytest_cache
+.ruff_cache
+apps/web/public/video-data.json
+apps/web/video.html
+apps/web/src/video
+scripts/video
